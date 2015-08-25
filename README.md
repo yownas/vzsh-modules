@@ -3,6 +3,8 @@ Small scripts (modules) that could be used via vzsh.
 
 Usually called with: vzsh -M \<modulename\> \<arguments\>
 
+To use these scripts you need vzsh from https://github.com/yownas/vzsh
+
 ## wol - Wake On Lan
 
     vzsh -M wol <vzhost>

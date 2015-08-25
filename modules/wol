@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Small script that sends wake-on-lan packages to hosts in your ~/.vz/hosts file
+# This could be used if you have servers that you shutdown when
+# they aren't needed and need a away to power them on again.
+#
+# Usage:
+# vzsh -M wol <hostname>
+# Also supports regular expressions.
+# vzsh -M wol 'vzhost[1-5]'
+
+
+broadcast="192.168.1.255"
+
+hosts=~/.vz/hosts
+
+# Choose a command to send the udp-packet
+# nc should work on most Linuxes but if that
+# fails, try socat which works fine on Freebsd
+
+#wolcmd="nc -u ${broadcast} 7"
+wolcmd="socat - udp-datagram:${broadcast}:7,broadcast"
+
+hostmask=$1
+
+# You shouldn't need to change anything below this line
+#######################################################
+
+wol() {
+  echo "Wake up $1"
+  (echo "16i" ; echo "FFFFFFFFFFFF$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1" | tr -d : | tr 'a-z' 'A-Z' | sed 's/\(..\)/\1P/g') | dc | $wolcmd
+}
+
+for ether in `cat $hosts | awk '/'$hostmask'/{printf($2" ")}'`; do
+  wol $ether
+done

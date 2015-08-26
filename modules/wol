@@ -18,17 +18,29 @@ hosts=~/.vz/hosts
 # nc should work on most Linuxes but if that
 # fails, try socat which works fine on Freebsd
 
-#wolcmd="nc -u ${broadcast} 7"
-wolcmd="socat - udp-datagram:${broadcast}:7,broadcast"
+wolcmd="nc -w 1 -u ${broadcast} 7"
+#wolcmd="socat - udp-datagram:${broadcast}:7,broadcast"
 
 hostmask=$1
+packets=2
 
 # You shouldn't need to change anything below this line
 #######################################################
 
 wol() {
-  echo "Wake up $1"
-  (echo "16i" ; echo "FFFFFFFFFFFF$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1$1" | tr -d : | tr 'a-z' 'A-Z' | sed 's/\(..\)/\1P/g') | dc | $wolcmd
+  e=$1
+
+  echo -n "Wake up $1"
+
+  i=0
+  while [ $i -lt $packets ]; do
+    i=$(expr $i + 1)
+    (echo "16i" ; echo "FFFFFFFFFFFF$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e" | tr -d : | tr 'a-z' 'A-Z' | sed 's/\(..\)/\1P/g') | dc | $wolcmd
+
+    echo -n "."
+  done
+  echo ""
+
 }
 
 for ether in `cat $hosts | awk '/'$hostmask'/{printf($2" ")}'`; do

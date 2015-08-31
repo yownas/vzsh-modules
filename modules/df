@@ -1,0 +1,8 @@
+# To be sourced by vzsh
+
+# Requires "hostrun" permissions.
+# Will output a top 5 diskusage (in percent) list of containers.
+
+echo "Top 5 disk-usage:"
+( vz_athosts hostrun vzlist -Hat -o hostname,diskspace,diskspace.s ) | awk '{printf("%.2f%% %s\n", 100*$2/$3, $1)}' | sort -nr | head -5
+

@@ -15,6 +15,12 @@ Good way to see if any containers are about to run out of space.
 
 Requirements: Need "hostrun" permissions.
 
+## list - List modules
+
+    vzsh -M list
+
+List modules and print a description of them.
+
 ## wol - Wake On Lan
 
     vzsh -M wol <vzhost>

@@ -1,4 +1,4 @@
-# To be sourced from vzsh.
+# Send wake-on-lan packets to hosts.
 
 # Small script that sends wake-on-lan packages to hosts in your ~/.vz/hosts file
 # vzsh treats anything except the first argument in that list as a comment.
@@ -18,8 +18,8 @@ broadcast="192.168.1.255"
 # nc should work on most Linuxes but if that
 # fails, try socat which works fine on Freebsd
 
-wolcmd="nc -w 1 -u ${broadcast} 7"
-#wolcmd="socat - udp-datagram:${broadcast}:7,broadcast"
+#wolcmd="nc -w 1 -u ${broadcast} 7"
+wolcmd="socat - udp-datagram:${broadcast}:7,broadcast"
 
 hostmask=$1
 packets=2

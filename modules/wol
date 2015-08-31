@@ -1,6 +1,9 @@
-#!/bin/sh
+# To be sourced from vzsh.
 
 # Small script that sends wake-on-lan packages to hosts in your ~/.vz/hosts file
+# vzsh treats anything except the first argument in that list as a comment.
+# We use that to store the mac-addr for the host.
+#
 # This could be used if you have servers that you shutdown when
 # they aren't needed and need a away to power them on again.
 #
@@ -9,10 +12,7 @@
 # Also supports regular expressions.
 # vzsh -M wol 'vzhost[1-5]'
 
-
 broadcast="192.168.1.255"
-
-hosts=~/.vz/hosts
 
 # Choose a command to send the udp-packet
 # nc should work on most Linuxes but if that
@@ -35,7 +35,8 @@ wol() {
   i=0
   while [ $i -lt $packets ]; do
     i=$(expr $i + 1)
-    (echo "16i" ; echo "FFFFFFFFFFFF$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e" | tr -d : | tr 'a-z' 'A-Z' | sed 's/\(..\)/\1P/g') | dc | $wolcmd
+    # Use dc to convert ascii-hex to actual binary and send the packet with $wolcmd.
+    (echo "16i" ; echo "FFFFFFFFFFFF$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e$e" | sed 's/\(..\)/\1P/g') | dc | $wolcmd
 
     echo -n "."
   done
@@ -43,6 +44,13 @@ wol() {
 
 }
 
-for ether in `cat $hosts | awk '/'$hostmask'/{printf($2" ")}'`; do
-  wol $ether
+# Use $hostfil from vzsh to get the list of hosts
+
+for ether in `cat $hostfile | awk '/'$hostmask'/{printf($2" ")}'`; do
+  # Remove : and make letters uppercase.
+  ether=`echo $ether | tr -d : | tr 'a-z' 'A-Z'`
+  # Change all valid chars to 0, if it then matches 12 0'es it is a valid mac-addr. 
+  if [ "`echo $ether | tr '[A-F0-9]' '0000000000000000'`" == "000000000000" ]; then 
+    wol $ether
+  fi
 done

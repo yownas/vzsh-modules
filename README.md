@@ -5,6 +5,16 @@ Usually called with: vzsh -M \<modulename\> \<arguments\>
 
 To use these scripts you need vzsh from https://github.com/yownas/vzsh
 
+## df - Disk usage
+
+    vzsh -M df
+
+Will show a "top 5" list of containers sorted by disk usage, in percent.
+
+Good way to see if any containers are about to run out of space.
+
+Requirements: Need "hostrun" permissions.
+
 ## wol - Wake On Lan
 
     vzsh -M wol <vzhost>
@@ -20,3 +30,5 @@ Add the addresses like this:
 
 And remember to set the command to use for sending packages in the script, nc or socat and set the broadcast
 address to use.
+
+Requirements: nc or socat binaries.

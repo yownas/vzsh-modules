@@ -1,0 +1,23 @@
+# List modules and usage
+#
+# Usage:
+#   vzsh -M help
+#   vzsh -M help -s
+#     Short output
+#
+##
+
+# Simply list all modules and show the first line
+# which hopefully is a description on what the
+# module does.
+
+for module in `cd $modules && find . -type f | sed 's#.*/##'`; do
+  echo "==== $module ===="
+  if [ "$args" = "-s" ]; then
+    cat $module | head -1 | sed 's/^#//;s/^ //'
+  else
+    cat $module | awk '/^##$/{exit}{print}' | sed 's/^#//;s/^ //'
+  fi
+  echo ""
+done
+

@@ -1,4 +1,11 @@
-# Top 5 list of disk usage
+# Quick Check
+#
+# Show some quick info about your containers
+#
+# Usage:
+#   vzsh -M qc
+#
+##
 
 # Will output a top 5 disk usage (in percent) list of containers.
 #

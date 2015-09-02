@@ -5,21 +5,20 @@ Usually called with: vzsh -M \<modulename\> \<arguments\>
 
 To use these scripts you need vzsh from https://github.com/yownas/vzsh
 
-## df - Disk usage
+## help - List modules and show help
 
-    vzsh -M df
+    vzsh -M help
+    vzsh -M help -s
 
-Will show a "top 5" list of containers sorted by disk usage, in percent.
+List modules in your module folder and show usage. -s gives a short output with only the first line of the module.
 
-Good way to see if any containers are about to run out of space.
+## qc - Quick Check
+
+    vzsh -M qc
+
+Will show things like top 5 disk usage and failed beancounters. Can be good to get a quick overview if any containers seem to have any problems.
 
 Requirements: Need "hostrun" permissions.
-
-## list - List modules
-
-    vzsh -M list
-
-List modules and print a description of them.
 
 ## wol - Wake On Lan
 

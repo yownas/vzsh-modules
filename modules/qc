@@ -13,4 +13,8 @@
 
 echo "Top 5 disk-usage:"
 ( vz_athosts hostrun vzlist -Hat -o hostname,diskspace,diskspace.s ) | awk '{printf("%.2f%% %s\n", 100*$2/$3, $1)}' | sort -nr | head -5
+echo ""
 
+echo "Failed beancounters > 0:"
+vz_athosts hostrun vzlist -Hat -o hostname,hostname,kmemsize.f,lockedpages.f,privvmpages.f,shmpages.f,numproc.f,physpages.f,vmguarpages.f,oomguarpages.f,numtcpsock.f,numflock.f,numpty.f,numsiginfo.f,tcpsndbuf.f,tcprcvbuf.f,othersockbuf.f,dgramrcvbuf.f,numothersock.f,dcachesize.f,numfile.f,numiptent.f,swappages.f 2> /dev/null | awk '{printf("%-8s %s\n", $3+$4+$5+$6+$7+$8+$9+$10+$11+$12+$13+$14+$15+$16+$17+$18+$19+$20+$21+$22+$23, $2)}' | grep -v '^0' | sort -nr
+echo ""

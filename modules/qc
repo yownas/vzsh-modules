@@ -12,7 +12,7 @@
 # Requires "hostrun" permissions.
 
 echo "Top 5 disk-usage:"
-( vz_athosts hostrun vzlist -Hat -o hostname,diskspace,diskspace.s ) | awk '{printf("%.2f%% %s\n", 100*$2/$3, $1)}' | sort -nr | head -5
+( vz_athosts hostrun vzlist -Hat -o hostname,diskspace,diskspace.s ) | tr -d '\015' | awk '/ permission denied /{print "Oops: "$0}/[0-9]* [0-9]*$/{printf("%.2f%% %s\n", 100*$2/$3, $1)}' | sort -nr | head -5
 echo ""
 
 echo "Failed beancounters > 0:"

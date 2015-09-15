@@ -5,6 +5,10 @@ Usually called with: vzsh -M \<modulename\> \<arguments\>
 
 To use these scripts you need vzsh from https://github.com/yownas/vzsh
 
+# Installation
+
+Copy the modules-folder at ~/.vz/modules on the client side and the modulesd-folder at /opt/vzsh/modulesd on all vz-hosts.
+
 ## help - List modules and show help
 
     vzsh -M help
@@ -18,7 +22,7 @@ List modules in your module folder and show usage. -s gives a short output with 
 
 Will show things like top 5 disk usage and failed beancounters. Can be good to get a quick overview if any containers seem to have any problems.
 
-Requirements: Need "hostrun" permissions.
+Requirements: Need module permissions.
 
 ## wol - Wake On Lan
 

@@ -7,7 +7,7 @@ To use these scripts you need vzsh from https://github.com/yownas/vzsh
 
 # Installation
 
-Copy the modules-folder at ~/.vz/modules on the client side and the modulesd-folder at /opt/vzsh/modulesd on all vz-hosts.
+Copy modules to ~/.vz/modules on the client side and modulesd to /opt/vzsh/modulesd on all vz-hosts.
 
 ## help - List modules and show help
 

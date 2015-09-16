@@ -2,14 +2,12 @@
 #
 # Show some quick info about your containers
 #
+# Requires qc module permissions.
+#
 # Usage:
 #   vzsh -M qc
 #
 ##
-
-# Will output a top 5 disk usage (in percent) list of containers.
-#
-# Requires "hostrun" permissions.
 
 echo "Top 5 disk-usage:"
 vz_athosts module qc diskusage | sort -nr | head -5
